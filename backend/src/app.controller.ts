@@ -2,6 +2,9 @@ import { Controller, Get, Param,Query,Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreatePaymentOrderDTO } from './dtos/createPaymentOrder.dto.ts';
 
+
+const TOKEN_ADDRESS = "0x12D0122946B86dD1c71DA5eB637f3c056c143c89";
+
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
