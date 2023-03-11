@@ -10,13 +10,13 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get("/contract-address")
-  getContractAddress(): string {
-    return this.appService.getContractAddress();
+  getContractAddress(): {address: string} {
+    return {address: this.appService.getContractAddress()};
   }
 
   @Get("/total-supply")
-   async getTotalSupply(): Promise<number> {
-    return await this.appService.getTotalSupply();
+    getTotalSupply(): Promise<number> {
+    return this.appService.getTotalSupply();
   }
 
 

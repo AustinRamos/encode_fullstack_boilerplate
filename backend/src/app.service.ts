@@ -5,7 +5,7 @@ import {PaymentOrder} from './models/paymentOrder.model'
 import * as dotenv from "dotenv";
 
 
-const CONTRACT_ADDRESS = '0x718D7050F4b92250a46233FD0f4048F7552f8384';
+const CONTRACT_ADDRESS = '0x12D0122946B86dD1c71DA5eB637f3c056c143c89';
 
 
 
