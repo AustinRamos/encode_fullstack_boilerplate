@@ -70,7 +70,7 @@ export class AppComponent {
         const body = {address:this.userAddress,amount: ethers.utils.parseEther(amount)};
         return this.http.post<{result: string}>(url, body).subscribe((res)=>{
           console.log("requested amount " , amount , " tokens for address " , this.userAddress)
-
+            console.log("component Request Token: " , res)
           console.log("TX Hash: " ,  res.result)
         })
       }

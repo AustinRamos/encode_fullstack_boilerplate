@@ -40,7 +40,7 @@ export class AppController {
   
  @Post("request-tokens")
  requestTokens(@Body() body: RequestTokensDTO){
-      console.log({body})
+      console.log("app controller body: ", body)
   return {result: this.appService.requestTokens(body.address,body.amount)};
  }
 
