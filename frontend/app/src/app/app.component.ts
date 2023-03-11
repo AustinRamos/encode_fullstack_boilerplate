@@ -67,7 +67,7 @@ export class AppComponent {
       requestTokens(amount: string ){
         console.log("component requestToken amount: " , amount)
         const url = API_URL + "/request-tokens";
-        const body = {address:this.userAddress,amount: amount};
+        const body = {address:this.userAddress,amount: ethers.utils.parseEther(amount)};
         return this.http.post<{result: string}>(url, body).subscribe((res)=>{
           console.log("requested amount " , amount , " tokens for address " , this.userAddress)
 
