@@ -1,5 +1,4 @@
-export class CreatePaymentOrderDTO{
-    id: number;
-    secret: string;
-    value: number;
+export class RequestTokensDTO{
+    address: string;
+    amount: number;
 }

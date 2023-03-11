@@ -1,6 +1,6 @@
 import { Controller, Get, Param,Query,Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CreatePaymentOrderDTO } from './dtos/createPaymentOrder.dto.ts';
+import { RequestTokensDTO } from './dtos/createPaymentOrder.dto.ts';
 
 
 const TOKEN_ADDRESS = "0x12D0122946B86dD1c71DA5eB637f3c056c143c89";
@@ -36,14 +36,12 @@ export class AppController {
    return await this.appService.getTransactionStatus(hash);
  }
 
- @Get("payment-orders")
- getPaymentOrders(){
-   return this.appService.getPaymentOrders();
+ 
+  
+ @Post("request-tokens")
+ requestTokens(@Body() body: RequestTokensDTO){
+      console.log({body})
+  return {result: this.appService.requestTokens(body.address,body.amount)};
  }
 
- @Post("payment-order")
- createPaymentOrder(@Body() body: CreatePaymentOrderDTO){
-   return this.appService.createPaymentOrder(body.value,body.secret);
- }
-  
 }
