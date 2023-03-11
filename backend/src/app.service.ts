@@ -3,29 +3,26 @@ import {ethers} from 'ethers';
 import * as tokenJson from './assets/MyToken.json';
 import {RequestTokensDTO} from './models/paymentOrder.model'
 import * as dotenv from "dotenv";
-
+dotenv.config();
 
 const CONTRACT_ADDRESS = '0x12D0122946B86dD1c71DA5eB637f3c056c143c89';
 
-
+const privateKey = process.env.PRIVATE_KEY;
+if (!privateKey || privateKey.length <= 0) throw new Error("Missing private key, check .env file");
 
 @Injectable()
 export class AppService {
-  requestTokens(address: string, amount: number) {
-    //throw new Error('Method not implemented.');]
-    console.log("todo!")
+  async requestTokens(address: string, amount: number) {
+    const provider = new ethers.providers.InfuraProvider("goerli", process.env.INFURA_API_KEY);
+    const wallet = new ethers.Wallet(privateKey, provider);
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, wallet);
+    const mintTx = await contract.mint(amount);
+    const receipt = await mintTx.wait();
+    console.log("Transaction Hash:", receipt.transactionHash);
+    return receipt.transactionHash;
     //TODO 
-    //load private key
+    //pass in the ABI for the contract
 
-    //create signer
-
-    //connect signer to contract
-
-    //call mint fucntion
-
-    //return tx hash 
-
-    return "txHash "
   }
 
 
