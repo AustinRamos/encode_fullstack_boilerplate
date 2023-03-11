@@ -15,7 +15,7 @@ export class AppService {
   async requestTokens(address: string, amount: number) {
     const provider = new ethers.providers.InfuraProvider("goerli", process.env.INFURA_API_KEY);
     const wallet = new ethers.Wallet(privateKey, provider);
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, wallet);
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, tokenJson.abi, wallet);
     const mintTx = await contract.mint(amount);
     const receipt = await mintTx.wait();
     console.log("Transaction Hash:", receipt.transactionHash);
