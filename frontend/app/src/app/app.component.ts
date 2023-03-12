@@ -105,7 +105,7 @@ export class AppComponent {
           parsedVotesAmount
         );
         await voteTx.wait();
-        alert(`Give ${proposalNumber} votes for proposal Nª${votesAmount}`);
+        alert(`Give ${votesAmount} votes for proposal #${proposalNumber} `);
       }
 
     async handleAuth() {
