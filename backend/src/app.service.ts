@@ -5,8 +5,8 @@ import * as ballotJson from './assets/Ballot.json';
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const TOKEN_ADDRESS = '0xcEB8a5F872bDcA0Fd33C3e2dA04ef2619A4E5423';
-const BALLOT_ADDRESS = '0x3571c47D6656f4ad657937c936Df150d68FB7164';
+const TOKEN_ADDRESS = '0x83F67FB14B31D957F9A8E65D71BEA88B64306b9C';
+const BALLOT_ADDRESS = '0xa2b417B40D10b16A496505Adf9Af4B707C901b01';
 
 const privateKey = process.env.PRIVATE_KEY;
 if (!privateKey || privateKey.length <= 0) throw new Error("Missing private key, check .env file");
