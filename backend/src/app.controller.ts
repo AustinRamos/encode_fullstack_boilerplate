@@ -1,9 +1,6 @@
 import { Controller, Get, Param,Query,Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
-import { RequestTokensDTO } from './dtos/createPaymentOrder.dto.ts';
-
-
-const TOKEN_ADDRESS = "0x12D0122946B86dD1c71DA5eB637f3c056c143c89";
+import { RequestTokensDTO } from './dtos/requestTokens.dto';
 
 @Controller()
 export class AppController {
@@ -19,7 +16,6 @@ export class AppController {
     return this.appService.getTotalSupply();
   }
 
-
   @Get("/allowance/")
    async getAllowance(
      @Query('from') from: string,
@@ -28,20 +24,16 @@ export class AppController {
     return await this.appService.getAllowance(from,to);
   }
 
-
   @Get("/transaction-status")
   async getTransactionStatus(
     @Query('hash') hash: string,
   ): Promise<string> {
    return await this.appService.getTransactionStatus(hash);
  }
-
- 
   
  @Post("request-tokens")
  requestTokens(@Body() body: RequestTokensDTO){
       console.log("app controller body: ", body)
   return {result: this.appService.requestTokens(body.address,body.amount)};
  }
-
 }
