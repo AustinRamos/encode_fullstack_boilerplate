@@ -37,6 +37,16 @@
           <p>Amount: </p>
           <input #mintAmount type="number" min="0" max = "100" class="input">
 
+          <button *ngIf ="delegateAmount" 
+          type="button" 
+          class="btn btn-success btn-lg px-4 gap-3 my-4" 
+          (click) = "delegateTokens(delegateAmount.value, delegateAddress.value)" >
+          Delegate Voting Tokens
+        </button>
+        <p>Amount: </p>
+        <input #delegateAmount type="number" min="0" max = "100" class="input">
+        <p>Address: </p>
+        <input #delegateAddress type="text" class="input">
  
         </div>
       </div>
