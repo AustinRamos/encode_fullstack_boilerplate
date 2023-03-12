@@ -4,8 +4,8 @@ import * as tokenJson from './assets/MyToken.json';
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const TOKEN_ADDRESS = '0x718D7050F4b92250a46233FD0f4048F7552f8384';
-const BALLOT_ADDRESS = '0xC71590467BE80CE225Fc3b1410F440746f496Da0';
+const TOKEN_ADDRESS = '0xcEB8a5F872bDcA0Fd33C3e2dA04ef2619A4E5423';
+const BALLOT_ADDRESS = '0x3571c47D6656f4ad657937c936Df150d68FB7164';
 
 const privateKey = process.env.PRIVATE_KEY;
 if (!privateKey || privateKey.length <= 0) throw new Error("Missing private key, check .env file");
@@ -27,7 +27,8 @@ export class AppService {
     const wallet = new ethers.Wallet(privateKey, provider);
     const contract = new ethers.Contract(TOKEN_ADDRESS, tokenJson.abi, wallet);
     
-    const mintTx = await contract.mint(address,amount);
+    const parsedAmount = ethers.utils.parseEther(amount.toString());
+    const mintTx = await contract.mint(address,parsedAmount);
     const receipt = await mintTx.wait();
     console.log("Receipt: " , receipt);
     console.log("Tx hash:", receipt.transactionHash);
@@ -47,19 +48,6 @@ export class AppService {
     const totalSupplyBN = await this.contract.totalSupply()
     const totalSupplyString = ethers.utils.formatEther(totalSupplyBN)
     return parseFloat(totalSupplyString);
-  }
-
-  async delegateTokens(amount: number, delegateAddress: string) {
-
-    // console.log("DELEGATION AMOUNT: " , amount)
-    // const provider = new ethers.providers.InfuraProvider("goerli", process.env.INFURA_API_KEY);
-    // //const wallet = new ethers.Wallet(privateKey, provider);
-    // const contract = new ethers.Contract(CONTRACT_ADDRESS, tokenJson.abi, this.);
-    // const delTx = await contract.delegate(delegateAddress,amount);
-    // const receipt = await delTx.wait();
-    // console.log("receipt: " , receipt);
-    // console.log("Transaction Hash:", receipt.transactionHash);
-    // return receipt.transactionHash;
   }
  
   getHello(): string {

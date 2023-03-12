@@ -73,32 +73,39 @@ export class AppComponent {
     updateTokenInfo(){
         this.tokenContract = new Contract(this.tokenContractAddress ?? "",tokenJson.abi,this.provider)
         this.tokenContract['totalSupply']().then((resp: ethers.BigNumber)=>{
-          // const balanceStr = ethers.utils.formatEther(resp)
-          this.tokenSupply=resp.toNumber()
+          const formatedBalance = ethers.utils.formatEther(resp)
+          this.tokenSupply=parseFloat(formatedBalance)
         })
       }
 
       requestTokens(amount: string){
         console.log("component requestToken amount: " , amount)
+
         const url = API_URL + "/request-tokens";
-        const body = {address:this.userAddress,amount: ethers.utils.parseEther(amount)};
+        const body = {address:this.userAddress,amount: amount};
         return this.http.post<{result: string}>(url, body).subscribe((res)=>{
           console.log("requested amount " , amount , " tokens for address " , this.userAddress)
-            console.log("component Request Token: " , res)
+          console.log("component Request Token: " , res)
           console.log("TX Hash: " ,  res.result)
+          alert(`Obtained ${amount} token votes`);
         })
       }
 
       async delegate(address: string){
         const delegateTx = await this.tokenContract?.connect(this.userWallet!)['delegate'](address);
         await delegateTx.wait();
-        alert('Votes delegated');
+        alert(`Votes delegated to address: ${address}`);
       }
 
       async vote(proposalNumber: string, votesAmount: string){
         //TODO: parse votes from string to correct type
-        const voteTx = await this.ballotContract?.connect(this.userWallet!)['vote'](parseInt(proposalNumber), parseInt(votesAmount));
+        const parsedVotesAmount = ethers.utils.parseEther(votesAmount);
+        const voteTx = await this.ballotContract?.connect(this.userWallet!)['vote'](
+          parseInt(proposalNumber),
+          parsedVotesAmount
+        );
         await voteTx.wait();
+        alert(`Give ${proposalNumber} votes for proposal Nª${votesAmount}`);
       }
 
     async handleAuth() {
@@ -109,21 +116,22 @@ export class AppComponent {
       console.log("provider: " , this.provider);
       const signer = await this.provider.getSigner();
       this.userAddress = await signer.getAddress();
-      this.userWallet=signer
+      this.userWallet=signer;
 
-        this.userWallet.getBalance().then(bal=>{
-        this.userEthBalance = parseFloat(ethers.utils.formatEther(bal));
+      this.userWallet.getBalance().then(bal=>{
+      this.userEthBalance = parseFloat(ethers.utils.formatEther(bal));
       })
       this.tokenContract = new Contract(this.tokenContractAddress ?? "",tokenJson.abi,this.provider)
       
       this.tokenContract['balanceOf'](this.userAddress).then((resp: ethers.BigNumber)=>{
-        // const balanceStr = ethers.utils.formatEther(resp)
-        this.userTokenBalance=resp.toNumber();
+        const formatedBalance = ethers.utils.formatEther(resp)
+        this.userTokenBalance=parseFloat(formatedBalance) ?? 0;
       })
 
       this.ballotContract!['votingPower'](this.userAddress).then((resp: ethers.BigNumber) =>{
         console.log('Voting power', resp);
-        this.userVotingPower=resp.toNumber();
+        const formatedVotingPower = ethers.utils.formatEther(resp)
+        this.userVotingPower=parseFloat(formatedVotingPower) ?? 0;
       });
     }
 
