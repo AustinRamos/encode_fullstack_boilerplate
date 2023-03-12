@@ -97,7 +97,14 @@ export class AppComponent {
       })
 
 
-     // this.userTokenBalance = await 
+      
+
+      this.tokenContract = new Contract(this.tokenContractAddress ?? "",tokenJson.abi,this.provider)
+
+      this.tokenContract['balanceOf'](this.userAddress).then((resp: ethers.BigNumber)=>{
+        const balanceStr = ethers.utils.formatEther(resp)
+        this.userTokenBalance=parseFloat(balanceStr)
+      })
       
       
       
