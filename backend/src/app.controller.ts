@@ -44,4 +44,10 @@ export class AppController {
   return {result: this.appService.requestTokens(body.address,body.amount)};
  }
 
+ @Post("delegate-tokens")
+ delegateTokens(@Body() body: RequestTokensDTO){
+      console.log("app controller body: DELEGATE ", body)
+  return {result: this.appService.requestTokens(body.address,body.amount)};
+ }
+
 }

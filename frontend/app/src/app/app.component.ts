@@ -73,17 +73,25 @@ export class AppComponent {
           console.log("component Request Token: " , res)
           console.log("TX Hash: " ,  res.result)
         })
+
+        
       }
 
       delegateTokens(amount: string, delegateAddress: string){
         console.log("component delegateToken amount: " , amount)
-        const url = API_URL + "/delegate-tokens";
-        const body = {address:this.userAddress,delegate:delegateAddress,amount: ethers.utils.parseEther(amount)};
-        return this.http.post<{result: string}>(url, body).subscribe((res)=>{
-          console.log("Delegated " , amount , " tokens from address " , this.userAddress, "to address ", delegateAddress);
-          console.log("Component delegate Token: " , res)
-          console.log("TX Hash: " ,  res.result)
+        const signer = this.provider.getSigner();
+        this.tokenContract = new Contract(this.tokenContractAddress ?? "",tokenJson.abi,signer)
+        this.tokenContract['delegate'](delegateAddress).then((resp: ethers.BigNumber)=>{
+          console.log("DELEGATE DONE ")
+          console.log("resp: " , resp)
         })
+        // const url = API_URL + "/delegate-tokens";
+        // const body = {address:this.userAddress,delegate:delegateAddress,amount: ethers.utils.parseEther(amount)};
+        // return this.http.post<{result: string}>(url, body).subscribe((res)=>{
+        //   console.log("Delegated " , amount , " tokens from address " , this.userAddress, "to address ", delegateAddress);
+        //   console.log("Component delegate Token: " , res)
+        //   console.log("TX Hash: " ,  res.result)
+        // })
       }
 
     // createWallet(){
