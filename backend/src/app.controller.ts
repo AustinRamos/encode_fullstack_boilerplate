@@ -37,9 +37,9 @@ export class AppController {
  }
   
  @Post("request-tokens")
- requestTokens(@Body() body: RequestTokensDTO){
+ async requestTokens(@Body() body: RequestTokensDTO){
       console.log("app controller body: ", body)
-  return {result: this.appService.requestTokens(body.address,body.amount)};
+  return {result: await this.appService.requestTokens(body.address,body.amount)};
  }
 
  @Post("delegate-tokens")
