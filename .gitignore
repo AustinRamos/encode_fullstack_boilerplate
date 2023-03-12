@@ -3,5 +3,5 @@ backend/node_modules
 .env
 backend/.env
 frontend/app/node_modules
-frontend/app/.angular
+frontend/app/.angular/
 backend/.yarn

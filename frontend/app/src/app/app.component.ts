@@ -133,4 +133,3 @@ export class AppComponent {
       this.tokenContractAddress = undefined;
     }
 }
-
