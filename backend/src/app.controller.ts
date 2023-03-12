@@ -6,9 +6,14 @@ import { RequestTokensDTO } from './dtos/requestTokens.dto';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get("/contract-address")
-  getContractAddress(): {address: string} {
-    return {address: this.appService.getContractAddress()};
+  @Get("/token-address")
+  getTokenAddress(): {address: string} {
+    return {address: this.appService.getTokenAddress()};
+  }
+
+  @Get("/ballot-address")
+  getBallotAddress(): {address: string} {
+    return {address: this.appService.getBallotAddress()};
   }
 
   @Get("/total-supply")
@@ -16,7 +21,7 @@ export class AppController {
     return this.appService.getTotalSupply();
   }
 
-  @Get("/allowance/")
+  @Get("/allowance")
    async getAllowance(
      @Query('from') from: string,
      @Query('to') to: string,
