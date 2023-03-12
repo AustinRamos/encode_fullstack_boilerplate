@@ -1,17 +1,19 @@
 import { Controller, Get, Param,Query,Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
-import { RequestTokensDTO } from './dtos/createPaymentOrder.dto.ts';
-
-
-const TOKEN_ADDRESS = "0x12D0122946B86dD1c71DA5eB637f3c056c143c89";
+import { RequestTokensDTO } from './dtos/requestTokens.dto';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get("/contract-address")
-  getContractAddress(): {address: string} {
-    return {address: this.appService.getContractAddress()};
+  @Get("/token-address")
+  getTokenAddress(): {address: string} {
+    return {address: this.appService.getTokenAddress()};
+  }
+
+  @Get("/ballot-address")
+  getBallotAddress(): {address: string} {
+    return {address: this.appService.getBallotAddress()};
   }
 
   @Get("/total-supply")
@@ -19,8 +21,7 @@ export class AppController {
     return this.appService.getTotalSupply();
   }
 
-
-  @Get("/allowance/")
+  @Get("/allowance")
    async getAllowance(
      @Query('from') from: string,
      @Query('to') to: string,
@@ -28,15 +29,12 @@ export class AppController {
     return await this.appService.getAllowance(from,to);
   }
 
-
   @Get("/transaction-status")
   async getTransactionStatus(
     @Query('hash') hash: string,
   ): Promise<string> {
    return await this.appService.getTransactionStatus(hash);
  }
-
- 
   
  @Post("request-tokens")
  requestTokens(@Body() body: RequestTokensDTO){
@@ -49,5 +47,4 @@ export class AppController {
       console.log("app controller body: DELEGATE ", body)
   return {result: this.appService.requestTokens(body.address,body.amount)};
  }
-
 }
