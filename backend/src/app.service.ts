@@ -18,18 +18,25 @@ export class AppService {
     const provider = new ethers.providers.InfuraProvider("goerli", process.env.INFURA_API_KEY);
     const wallet = new ethers.Wallet(privateKey, provider);
     const contract = new ethers.Contract(CONTRACT_ADDRESS, tokenJson.abi, wallet);
-    
     const mintTx = await contract.mint(address,amount);
     const receipt = await mintTx.wait();
     console.log("receipt: " , receipt);
     console.log("Transaction Hash:", receipt.transactionHash);
     return receipt.transactionHash;
-    //TODO 
-    //pass in the ABI for the contract
-
   }
 
+  async delegateTokens(amount: number, delegateAddress: string) {
 
+    console.log("DELEGATION AMOUNT: " , amount)
+    const provider = new ethers.providers.InfuraProvider("goerli", process.env.INFURA_API_KEY);
+    const wallet = new ethers.Wallet(privateKey, provider);
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, tokenJson.abi, wallet);
+    const delTx = await contract.delegate(delegateAddress,amount);
+    const receipt = await delTx.wait();
+    console.log("receipt: " , receipt);
+    console.log("Transaction Hash:", receipt.transactionHash);
+    return receipt.transactionHash;
+  }
  
 provider: ethers.providers.Provider;
 contract: ethers.Contract;
